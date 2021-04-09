@@ -1,6 +1,7 @@
 package com.example.issuetrackershayanserverjava.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="projects")
@@ -10,6 +11,9 @@ public class Project {
     private Long id;
     private String title;
     private String description;
+
+    @OneToMany(mappedBy = "project")
+    private List<Issue> issues;
 
 
     public Project(Long id, String title, String description) {
@@ -43,5 +47,21 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
+    }
+
+    public Issue addIssue(Issue issue){
+        this.issues.add(issue);
+//        if(issue.getProject() != this){
+//            issue.setProject(this);
+//        }
+        return issue;
     }
 }

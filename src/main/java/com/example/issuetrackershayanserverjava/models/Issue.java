@@ -1,6 +1,16 @@
 package com.example.issuetrackershayanserverjava.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name="issues")
 public class Issue {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //TODO: change types
     private String priority;
@@ -8,12 +18,23 @@ public class Issue {
     private String type;
     private String description;
 
-    public Issue(Long id, String priority, String status, String type, String description) {
+    @ManyToOne
+    @JsonIgnore
+    private Project project;
+
+    @OneToMany(mappedBy = "issue")
+    private List<Comment> comments;
+
+    public Issue(Long id, String priority,
+                 String status, String type,
+                 String description, Project project,
+                 List<Comment> comments) {
         this.id = id;
         this.priority = priority;
         this.status = status;
         this.type = type;
         this.description = description;
+        this.project = project;
     }
 
     public Issue() {
@@ -57,5 +78,24 @@ public class Issue {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+//        if(!project.getIssues().contains(this)){
+//            project.getIssues().add(this);
+//        }
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

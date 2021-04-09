@@ -1,5 +1,6 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
+import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,5 @@ public class ProjectController {
             @RequestBody Project project) {
         return service.updateProject(id, project);
     }
+
 }

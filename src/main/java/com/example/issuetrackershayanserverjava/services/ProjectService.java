@@ -1,12 +1,11 @@
 package com.example.issuetrackershayanserverjava.services;
 
+import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,4 +35,14 @@ public class ProjectService {
         projectRepository.deleteById(id);
         return 1;
     }
+//    public List<Issue> findIssuesForProject(Long id){
+//        Project project = projectRepository.findById(id).get();
+//        return project.getIssues();
+//    }
+//    public Issue createIssueForProject(Long pid, Issue issue){
+//        Project project = projectRepository.findById(pid).get();
+//        project.addIssue(issue);
+//        projectRepository.save(project);
+//        return issue;
+//    }
 }
