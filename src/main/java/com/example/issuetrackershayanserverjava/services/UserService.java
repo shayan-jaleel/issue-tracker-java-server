@@ -41,6 +41,7 @@ public class UserService {
         originalUser.setEmail(newUser.getEmail());
         originalUser.setFirstname(newUser.getFirstname());
         originalUser.setLastname(newUser.getLastname());
+        originalUser.setPassword(newUser.getPassword());
         //TODO: role change here?
 //        originalUser.setRole();
         userRepository.save(originalUser);
