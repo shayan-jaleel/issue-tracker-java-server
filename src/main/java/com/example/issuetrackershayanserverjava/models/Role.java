@@ -8,7 +8,7 @@ import java.util.List;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -18,18 +18,18 @@ public class Role {
     public Role() {
     }
 
-    public Role(long id, String name, List<User> users) {
+    public Role(Long id, String name, List<User> users) {
         this.id = id;
         this.name = name;
         this.users = users;
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
