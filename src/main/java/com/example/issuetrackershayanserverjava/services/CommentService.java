@@ -2,10 +2,8 @@ package com.example.issuetrackershayanserverjava.services;
 
 import com.example.issuetrackershayanserverjava.models.Comment;
 import com.example.issuetrackershayanserverjava.models.Issue;
-import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.repositories.CommentRepository;
 import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
-import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

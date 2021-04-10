@@ -40,6 +40,7 @@ public class IssueService {
         originalIssue.setPriority(newIssue.getPriority());
         originalIssue.setStatus(newIssue.getStatus());
         originalIssue.setType(newIssue.getType());
+        //TODO:set comments?
 //        originalIssue.setProject(newIssue.getProject());
         issueRepository.save(originalIssue);
         return 1;
