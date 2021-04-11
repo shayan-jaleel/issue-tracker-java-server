@@ -1,7 +1,11 @@
 package com.example.issuetrackershayanserverjava.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="projects")
@@ -15,11 +19,19 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Issue> issues;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name="project_users",
+        joinColumns = {@JoinColumn(name = "project_id")},
+        inverseJoinColumns = {@JoinColumn(name = "user_id")})
+//    @JsonIgnore
+    private Set<User> users;// = new ArrayList<>();
 
-    public Project(Long id, String title, String description) {
+
+    public Project(Long id, String title, String description, Set<User> users) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.users = users;
     }
 
     public Project() {
@@ -63,5 +75,13 @@ public class Project {
 //            issue.setProject(this);
 //        }
         return issue;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

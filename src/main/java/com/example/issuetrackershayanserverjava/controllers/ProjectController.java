@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -29,6 +30,22 @@ public class ProjectController {
     public Project findProjectById(
             @PathVariable("pid") Long id) {
         return service.findProjectById(id);
+    }
+    @GetMapping("/api/users/{uid}/projects")
+    public Set<Project> findProjectsForUser(
+            @PathVariable("uid") Long id) {
+        return service.findProjectsForUser(id);
+    }
+    @GetMapping("/api/issues/{iid}/projects")
+    public Project findProjectForIssue(
+            @PathVariable("iid") Long id) {
+        return service.findProjectForIssue(id);
+    }
+    @GetMapping("/api/users/{uid}/projects/{pid}")
+    public Integer addProjectToUser(
+            @PathVariable("uid") Long uid,
+            @PathVariable("pid") Long pid) {
+        return service.addProjectToUser(uid, pid);
     }
 
     @DeleteMapping("/api/projects/{pid}")

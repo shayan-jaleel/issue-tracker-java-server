@@ -1,13 +1,16 @@
 package com.example.issuetrackershayanserverjava.services;
 
+import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.models.Role;
 import com.example.issuetrackershayanserverjava.models.User;
+import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
 import com.example.issuetrackershayanserverjava.repositories.RoleRepository;
 import com.example.issuetrackershayanserverjava.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -15,6 +18,8 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    ProjectRepository projectRepository;
 
     // implement CRUD operations
     public User createUserForRole(Long rid, User user) {
@@ -47,6 +52,27 @@ public class UserService {
         userRepository.save(originalUser);
         return 1;
     }
+
+    public Set<User> findUsersForProject(Long pid){
+        Project project = projectRepository.findById(pid).get();
+        return project.getUsers();
+    }
+    public Integer addUserToProject(Long pid, Long uid){
+        User user = userRepository.findById(uid).get();
+        Project project = projectRepository.findById(pid).get();
+
+        project.getUsers().add(user);
+        Project project1 = projectRepository.save(project);
+        user.getProjects().add(project1);
+        User user1 = userRepository.save(user);
+
+//        List<User> curUserListForProject = new ArrayList<>(project.getUsers());
+//        curUserListForProject.add(user1);
+//        project.setUsers(curUserListForProject);
+//        Project project1 = projectRepository.save(project);
+        return 1;
+    }
+
     public Role findRoleForUser(Long id){
         User user = userRepository.findById(id).get();
         return user.getRole();

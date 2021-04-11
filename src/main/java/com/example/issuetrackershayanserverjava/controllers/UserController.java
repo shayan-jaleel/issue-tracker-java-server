@@ -1,6 +1,7 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
 import com.example.issuetrackershayanserverjava.models.Comment;
+import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.models.User;
 import com.example.issuetrackershayanserverjava.services.CommentService;
 import com.example.issuetrackershayanserverjava.services.UserService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -38,6 +40,18 @@ public class UserController {
     public User findUserById(
             @PathVariable("uid") Long id) {
         return service.findUserById(id);
+    }
+
+    @GetMapping("/api/projects/{pid}/users")
+    public Set<User> findUsersForProject(
+            @PathVariable("pid") Long id) {
+        return service.findUsersForProject(id);
+    }
+    @GetMapping("/api/projects/{pid}/users/{uid}")
+    public Integer addUserToProject(
+            @PathVariable("pid") Long uid,
+            @PathVariable("uid") Long pid) {
+        return service.addUserToProject(pid, uid);
     }
 
     @DeleteMapping("/api/users/{uid}")
