@@ -44,6 +44,7 @@ public class UserService {
     public Integer updateUser(Long id, User newUser) {
         User originalUser = findUserById(id);
         originalUser.setEmail(newUser.getEmail());
+        originalUser.setUsername(newUser.getUsername());
         originalUser.setFirstname(newUser.getFirstname());
         originalUser.setLastname(newUser.getLastname());
         originalUser.setPassword(newUser.getPassword());
