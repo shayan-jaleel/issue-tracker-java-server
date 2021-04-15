@@ -2,6 +2,7 @@ package com.example.issuetrackershayanserverjava.controllers;
 
 import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
+import com.example.issuetrackershayanserverjava.models.ProjectMain;
 import com.example.issuetrackershayanserverjava.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ProjectController {
     }
 
     @GetMapping("/api/projects")
-    public List<Project> findAllProjects() {
+    public List<ProjectMain> findAllProjects() {
         return service.findAllProjects();
     }
 

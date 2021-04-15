@@ -2,6 +2,7 @@ package com.example.issuetrackershayanserverjava.services;
 
 import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
+import com.example.issuetrackershayanserverjava.models.ProjectMain;
 import com.example.issuetrackershayanserverjava.models.User;
 import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
 import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
@@ -26,8 +27,14 @@ public class ProjectService {
     public Project createProject(Project project) {
         return projectRepository.save(project);
     }
-    public List<Project> findAllProjects() {
-        return (List<Project>)projectRepository.findAll();
+    public List<ProjectMain> findAllProjects() {
+        List<Project> projectList = (List<Project>)projectRepository.findAll();
+        List<ProjectMain> projectMainList = new ArrayList<>();
+        for(Project project: projectList){
+            projectMainList.add(new ProjectMain(project.getId(), project.getTitle(), project.getDescription()));
+        }
+        return projectMainList;
+//        return (List<Project>)projectRepository.findAll();
     }
     public Project findProjectById(Long id) {
         //TODO: See about isPresent()
