@@ -20,7 +20,7 @@ public class User {
     private String password;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private Role role;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "users")
