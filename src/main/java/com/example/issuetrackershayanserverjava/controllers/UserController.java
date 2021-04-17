@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 public class UserController {
     @Autowired
     UserService service;
