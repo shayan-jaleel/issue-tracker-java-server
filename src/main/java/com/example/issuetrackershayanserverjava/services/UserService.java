@@ -32,6 +32,11 @@ public class UserService {
         Role role = roleRepository.findById(rid).get();
         return role.getUsers();
     }
+    public User findUserForUsernamePassword(String username, String password){
+        List<User> matchedUsers = userRepository.findUserForUsernamePassword(username, password);
+        if(matchedUsers == null || matchedUsers.size() == 0) return null;
+        return matchedUsers.get(0);
+    }
 
     public List<User> findAllUsers() {
         return (List<User>)userRepository.findAll();

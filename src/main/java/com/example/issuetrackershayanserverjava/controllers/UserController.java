@@ -49,8 +49,8 @@ public class UserController {
     }
     @GetMapping("/api/projects/{pid}/users/{uid}")
     public Integer addUserToProject(
-            @PathVariable("pid") Long uid,
-            @PathVariable("uid") Long pid) {
+            @PathVariable("pid") Long pid,
+            @PathVariable("uid") Long uid) {
         return service.addUserToProject(pid, uid);
     }
 
