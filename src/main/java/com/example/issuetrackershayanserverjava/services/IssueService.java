@@ -2,6 +2,7 @@ package com.example.issuetrackershayanserverjava.services;
 
 import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
+import com.example.issuetrackershayanserverjava.models.UserIssues;
 import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
 import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,10 @@ public class IssueService {
 //        originalIssue.setProject(newIssue.getProject());
         issueRepository.save(originalIssue);
         return 1;
+    }
+    public List<Object> findIssueForUser(Long userId){
+        List<Object> returnedList = issueRepository.findIssuesForUser(userId);
+        return returnedList;
     }
     public Project findProjectForIssue(Long id){
         Issue issue = issueRepository.findById(id).get();

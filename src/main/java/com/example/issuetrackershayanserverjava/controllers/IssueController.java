@@ -2,11 +2,13 @@ package com.example.issuetrackershayanserverjava.controllers;
 
 import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
+import com.example.issuetrackershayanserverjava.models.UserIssues;
 import com.example.issuetrackershayanserverjava.services.IssueService;
 import com.example.issuetrackershayanserverjava.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,15 @@ public class IssueController {
     public List<Issue> findIssuesForProject(
             @PathVariable("pId") Long id){
         return service.findIssuesForProject(id);
+    }
+
+
+    @GetMapping("/api/users/{uId}/issues")
+    public List<Object> findIssuesForUser(
+            @PathVariable("uId") Long id){
+        List<Object> returnedList = service.findIssueForUser(id);
+        if(returnedList == null) return new ArrayList<>();
+        return returnedList;
     }
 
 
