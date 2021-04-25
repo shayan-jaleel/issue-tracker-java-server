@@ -1,16 +1,14 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
 import com.example.issuetrackershayanserverjava.models.Issue;
-import com.example.issuetrackershayanserverjava.models.Project;
-import com.example.issuetrackershayanserverjava.models.User;
 import com.example.issuetrackershayanserverjava.services.IssueService;
-import com.example.issuetrackershayanserverjava.services.ProjectService;
 import com.example.issuetrackershayanserverjava.repositories.UserIssues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -32,11 +30,25 @@ public class IssueController {
     }
 
 
+//    @GetMapping("/api/users/{uId}/issues")
+//    public List<UserIssues> findIssuesForUser(
+//            @PathVariable("uId") Long id){
+//        List<UserIssues> returnedList = service.findIssuesForUser(id);
+//        if(returnedList == null) return new ArrayList<>();
+//        return returnedList;
+//    }
+
     @GetMapping("/api/users/{uId}/issues")
     public List<UserIssues> findIssuesForUser(
-            @PathVariable("uId") Long id){
-        List<UserIssues> returnedList = service.findIssueForUser(id);
-        if(returnedList == null) return new ArrayList<>();
+            @PathVariable("uId") Long id,
+            @RequestParam("description") Optional<String> descriptionString){
+        List<UserIssues> returnedList = new ArrayList<>();
+        if(descriptionString.isPresent()) {
+            returnedList = service.findMatchingIssuesForUser(id, descriptionString.get());
+        }
+        else{
+            returnedList = service.findIssuesForUser(id);
+        }
         return returnedList;
     }
 
