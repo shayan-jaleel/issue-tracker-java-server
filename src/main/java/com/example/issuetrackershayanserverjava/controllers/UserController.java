@@ -65,4 +65,12 @@ public class UserController {
             @RequestBody User user) {
         return service.updateUser(id, user);
     }
+
+    @PutMapping("/api/roles/{rid}/users/{uid}")
+    public User updateUser(
+            @PathVariable("uid") Long uid,
+            @PathVariable("rid") Long rid,
+            @RequestBody User user) {
+        return service.updateUser(uid, rid, user);
+    }
 }

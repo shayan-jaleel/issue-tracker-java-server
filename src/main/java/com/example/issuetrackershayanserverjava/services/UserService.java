@@ -59,6 +59,20 @@ public class UserService {
         return 1;
     }
 
+    public User updateUser(Long uid, Long rid, User newUser) {
+        User originalUser = findUserById(uid);
+        originalUser.setEmail(newUser.getEmail());
+        originalUser.setUsername(newUser.getUsername());
+        originalUser.setFirstname(newUser.getFirstname());
+        originalUser.setLastname(newUser.getLastname());
+        originalUser.setPassword(newUser.getPassword());
+        Role role = roleRepository.findById(rid).get();
+        originalUser.setRole(role);
+        return userRepository.save(originalUser);
+//        return 1;
+    }
+
+
     public Set<User> findUsersForProject(Long pid){
         Project project = projectRepository.findById(pid).get();
         return project.getUsers();
