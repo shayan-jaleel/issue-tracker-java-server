@@ -70,7 +70,7 @@ public class IssueController {
     }
 
     @PutMapping("/api/issues/{iid}")
-    public Integer updateIssue(
+    public Issue updateIssue(
             @PathVariable("iid") Long id,
             @RequestBody Issue issue) {
         return service.updateIssue(id, issue);

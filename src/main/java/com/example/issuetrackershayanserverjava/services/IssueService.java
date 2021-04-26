@@ -40,7 +40,7 @@ public class IssueService {
         //TODO: See about isPresent()
         return issueRepository.findById(id).get();
     }
-    public Integer updateIssue(Long id, Issue newIssue) {
+    public Issue updateIssue(Long id, Issue newIssue) {
         Issue originalIssue = findIssueById(id);
         originalIssue.setDescription(newIssue.getDescription());
         originalIssue.setPriority(newIssue.getPriority());
@@ -48,8 +48,8 @@ public class IssueService {
         originalIssue.setType(newIssue.getType());
         //TODO:set comments?
 //        originalIssue.setProject(newIssue.getProject());
-        issueRepository.save(originalIssue);
-        return 1;
+        return issueRepository.save(originalIssue);
+//        return 1;
     }
     public List<UserIssues> findIssuesForUser(Long userId){
         List<UserIssues> returnedList = issueRepository.findIssuesForUser(userId);
