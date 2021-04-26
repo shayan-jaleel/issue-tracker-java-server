@@ -92,6 +92,21 @@ public class UserService {
 //        Project project1 = projectRepository.save(project);
         return 1;
     }
+    public Integer removeUserFromProject(Long pid, Long uid){
+        User user = userRepository.findById(uid).get();
+        Project project = projectRepository.findById(pid).get();
+
+        project.getUsers().remove(user);
+        Project project1 = projectRepository.save(project);
+        user.getProjects().remove(project1);
+        User user1 = userRepository.save(user);
+
+//        List<User> curUserListForProject = new ArrayList<>(project.getUsers());
+//        curUserListForProject.add(user1);
+//        project.setUsers(curUserListForProject);
+//        Project project1 = projectRepository.save(project);
+        return 1;
+    }
 
     public Role findRoleForUser(Long id){
         User user = userRepository.findById(id).get();

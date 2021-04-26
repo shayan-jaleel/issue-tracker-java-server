@@ -53,6 +53,12 @@ public class UserController {
             @PathVariable("uid") Long uid) {
         return service.addUserToProject(pid, uid);
     }
+    @DeleteMapping("/api/projects/{pid}/users/{uid}")
+    public Integer removeUserFromProject(
+            @PathVariable("pid") Long pid,
+            @PathVariable("uid") Long uid) {
+        return service.removeUserFromProject(pid, uid);
+    }
 
     @DeleteMapping("/api/users/{uid}")
     public Integer deleteUser(@PathVariable("uid") Long id) {
