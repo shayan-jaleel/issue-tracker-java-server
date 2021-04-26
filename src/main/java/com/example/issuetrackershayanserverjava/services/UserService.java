@@ -46,7 +46,7 @@ public class UserService {
         //TODO: See about isPresent()
         return userRepository.findById(id).get();
     }
-    public Integer updateUser(Long id, User newUser) {
+    public User updateUser(Long id, User newUser) {
         User originalUser = findUserById(id);
         originalUser.setEmail(newUser.getEmail());
         originalUser.setUsername(newUser.getUsername());
@@ -55,8 +55,8 @@ public class UserService {
         originalUser.setPassword(newUser.getPassword());
         //TODO: role change here?
 //        originalUser.setRole();
-        userRepository.save(originalUser);
-        return 1;
+        return userRepository.save(originalUser);
+//        return 1;
     }
 
     public User updateUser(Long uid, Long rid, User newUser) {
