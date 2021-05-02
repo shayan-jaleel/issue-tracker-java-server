@@ -33,6 +33,12 @@ public class CommentService {
         Issue issue = issueRepository.findById(iid).get();
         return issue.getComments();
     }
+
+    public List<Comment> findCommentsForUser(Long uid){
+        User user = userRepository.findById(uid).get();
+        return user.getComments();
+    }
+
     public List<Comment> findAllComments() {
         return (List<Comment>)commentRepository.findAll();
     }

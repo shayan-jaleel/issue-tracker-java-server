@@ -13,11 +13,11 @@ public class Comment {
     private String text;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private Issue issue;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private User user;
 
     public Comment(Long id, String text, Issue issue, User user) {

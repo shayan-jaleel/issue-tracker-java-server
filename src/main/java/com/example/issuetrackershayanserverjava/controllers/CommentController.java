@@ -28,6 +28,12 @@ public class CommentController {
         return service.findCommentsForIssue(id);
     }
 
+    @GetMapping("/api/users/{uid}/comments")
+    public List<Comment> findCommentsForUser(
+            @PathVariable("uid") Long id){
+        return service.findCommentsForUser(id);
+    }
+
     @GetMapping("/api/comments")
     public List<Comment> findAllComments() {
         return service.findAllComments();

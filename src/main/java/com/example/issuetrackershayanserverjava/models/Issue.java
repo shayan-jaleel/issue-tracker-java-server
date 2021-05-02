@@ -23,6 +23,7 @@ public class Issue {
     private Project project;
 
     @OneToMany(mappedBy = "issue")
+    @JsonIgnore
     private List<Comment> comments;
 
     public Issue(Long id, String priority,
