@@ -23,6 +23,9 @@ public class User {
 //    @JsonIgnore
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    List<Comment> comments;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "users")
     @JsonIgnore
     private Set<Project> projects;// = new ArrayList<>();
@@ -33,7 +36,7 @@ public class User {
     public User(Long id, String username, String firstname,
                 String lastname, String email,
                 String password, Role role,
-                Set<Project> projects) {
+                Set<Project> projects, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.firstname = firstname;
@@ -42,6 +45,7 @@ public class User {
         this.password = password;
         this.role = role;
         this.projects = projects;
+        this.comments = comments;
     }
 
     public Long getId() {
@@ -106,5 +110,13 @@ public class User {
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -14,11 +14,12 @@ public class CommentController {
     CommentService service;
 
     //TODO: Should I add project to endpoint?
-    @PostMapping("/api/issues/{iid}/comments")
-    public Comment createCommentForIssue(
+    @PostMapping("/api/issues/{iid}/users/{uid}/comments")
+    public Comment createComment(
             @PathVariable("iid") Long pid,
+            @PathVariable("uid") Long uid,
             @RequestBody Comment comment) {
-        return service.createCommentForIssue(pid, comment);
+        return service.createComment(pid, uid, comment);
     }
 
     @GetMapping("/api/issues/{iid}/comments")
@@ -26,7 +27,6 @@ public class CommentController {
             @PathVariable("iid") Long id){
         return service.findCommentsForIssue(id);
     }
-
 
     @GetMapping("/api/comments")
     public List<Comment> findAllComments() {
@@ -45,7 +45,7 @@ public class CommentController {
     }
 
     @PutMapping("/api/comments/{cid}")
-    public Integer updateComment(
+    public Comment updateComment(
             @PathVariable("cid") Long id,
             @RequestBody Comment comment) {
         return service.updateComment(id, comment);

@@ -2,8 +2,10 @@ package com.example.issuetrackershayanserverjava.services;
 
 import com.example.issuetrackershayanserverjava.models.Comment;
 import com.example.issuetrackershayanserverjava.models.Issue;
+import com.example.issuetrackershayanserverjava.models.User;
 import com.example.issuetrackershayanserverjava.repositories.CommentRepository;
 import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
+import com.example.issuetrackershayanserverjava.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,15 @@ public class CommentService {
     CommentRepository commentRepository;
     @Autowired
     IssueRepository issueRepository;
+    @Autowired
+    UserRepository userRepository;
 
     // implement CRUD operations
-    public Comment createCommentForIssue(Long iid, Comment comment) {
+    public Comment createComment(Long iid, Long uid, Comment comment) {
         Issue issue = issueRepository.findById(iid).get();
         comment.setIssue(issue);
+        User user = userRepository.findById(uid).get();
+        comment.setUser(user);
         return commentRepository.save(comment);
     }
 
@@ -30,19 +36,23 @@ public class CommentService {
     public List<Comment> findAllComments() {
         return (List<Comment>)commentRepository.findAll();
     }
+
     public Comment findCommentById(Long id) {
         //TODO: See about isPresent()
         return commentRepository.findById(id).get();
     }
-    public Integer updateComment(Long id, Comment newComment) {
+    public Comment updateComment(Long id, Comment newComment) {
         Comment originalComment = findCommentById(id);
         originalComment.setText(newComment.getText());
-        commentRepository.save(originalComment);
-        return 1;
+        return commentRepository.save(originalComment);
     }
     public Issue findIssueForComment(Long id){
         Comment comment = commentRepository.findById(id).get();
         return comment.getIssue();
+    }
+    public User findUserForComment(Long id){
+        Comment comment = commentRepository.findById(id).get();
+        return comment.getUser();
     }
     public Integer deleteComment(Long id) {
         commentRepository.deleteById(id);

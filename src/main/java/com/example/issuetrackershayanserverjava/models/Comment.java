@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
     private String text;
 
@@ -17,10 +16,15 @@ public class Comment {
     @JsonIgnore
     private Issue issue;
 
-    public Comment(Long id, String text, Issue issue) {
+    @ManyToOne
+    @JsonIgnore
+    private User user;
+
+    public Comment(Long id, String text, Issue issue, User user) {
         this.id = id;
         this.text = text;
         this.issue = issue;
+        this.user = user;
     }
 
     public Comment() {
@@ -48,5 +52,13 @@ public class Comment {
 
     public void setIssue(Issue issue) {
         this.issue = issue;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
