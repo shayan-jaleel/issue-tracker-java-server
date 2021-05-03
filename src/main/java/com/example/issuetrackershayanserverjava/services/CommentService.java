@@ -7,6 +7,9 @@ import com.example.issuetrackershayanserverjava.repositories.CommentRepository;
 import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
 import com.example.issuetrackershayanserverjava.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +35,12 @@ public class CommentService {
     public List<Comment> findCommentsForIssue(Long iid){
         Issue issue = issueRepository.findById(iid).get();
         return issue.getComments();
+    }
+    public Page<Comment> findPaginatedCommentsForIssue(Long iid, int pageNum, int pageSize){
+        Issue issue = issueRepository.findById(iid).get();
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        return commentRepository.findByIssue(issue, pageable);
+//        return commentRepository.findAll(pageable);
     }
 
     public List<Comment> findCommentsForUser(Long uid){
