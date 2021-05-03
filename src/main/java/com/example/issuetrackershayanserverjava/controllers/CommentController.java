@@ -37,9 +37,12 @@ public class CommentController {
     public CommentsPage findCommentsForIssue(
             @PathVariable("iid") Long id,
             @RequestParam(defaultValue = "1") Integer pageNum,
-//            @RequestParam(defaultValue = "id") String sortBy)
-            @RequestParam(defaultValue = "5") Integer pageSize){
-                Page<Comment> commentPage = service.findPaginatedCommentsForIssue(id, pageNum-1, pageSize);
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "desc") String sortDir){
+//                Page<Comment> commentPage = service.findPaginatedCommentsForIssue(id, pageNum-1, pageSize);
+        Page<Comment> commentPage = service.findPaginatedSortedCommentsForIssue(id, pageNum-1,
+                pageSize, sortField, sortDir);
                 List<Comment> comments = commentPage.getContent();
 //                List<Comment> sortedList = comments.stream()
 //                        .sorted((Comment a, Comment b) -> (int) (b.getId() - a.getId())).collect(Collectors.toList());

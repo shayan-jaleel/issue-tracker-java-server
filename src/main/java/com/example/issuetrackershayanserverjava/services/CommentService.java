@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,15 @@ public class CommentService {
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         return commentRepository.findByIssue(issue, pageable);
 //        return commentRepository.findAll(pageable);
+    }
+
+    public Page<Comment> findPaginatedSortedCommentsForIssue(Long iid, int pageNum, int pageSize,
+                                                             String sortField, String sortDirection){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Issue issue = issueRepository.findById(iid).get();
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        return commentRepository.findByIssue(issue, pageable);
     }
 
     public List<Comment> findCommentsForUser(Long uid){
