@@ -1,7 +1,5 @@
 package com.example.issuetrackershayanserverjava.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +9,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
+    private Long creationTime;
+    private Boolean edited;
 
     @ManyToOne
 //    @JsonIgnore
@@ -20,11 +20,14 @@ public class Comment {
 //    @JsonIgnore
     private User user;
 
-    public Comment(Long id, String text, Issue issue, User user) {
+    public Comment(Long id, String text, Issue issue, User user,
+                   Long creationTime, Boolean edited) {
         this.id = id;
         this.text = text;
         this.issue = issue;
         this.user = user;
+        this.creationTime = creationTime;
+        this.edited = edited;
     }
 
     public Comment() {
@@ -60,5 +63,21 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationUnixTime) {
+        this.creationTime = creationUnixTime;
+    }
+
+    public Boolean getEdited() {
+        return edited;
+    }
+
+    public void setEdited(Boolean edited) {
+        this.edited = edited;
     }
 }

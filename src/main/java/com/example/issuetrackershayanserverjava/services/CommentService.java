@@ -50,6 +50,7 @@ public class CommentService {
     public Comment updateComment(Long id, Comment newComment) {
         Comment originalComment = findCommentById(id);
         originalComment.setText(newComment.getText());
+        originalComment.setEdited(true);
         return commentRepository.save(originalComment);
     }
     public Issue findIssueForComment(Long id){
