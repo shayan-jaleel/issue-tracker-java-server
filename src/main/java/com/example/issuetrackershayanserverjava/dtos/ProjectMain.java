@@ -1,4 +1,4 @@
-package com.example.issuetrackershayanserverjava.models;
+package com.example.issuetrackershayanserverjava.dtos;
 
 public class ProjectMain {
     private Long id;

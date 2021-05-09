@@ -1,16 +1,14 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
+import com.example.issuetrackershayanserverjava.dtos.ItemsPage;
 import com.example.issuetrackershayanserverjava.dtos.CommentsPage;
-import com.example.issuetrackershayanserverjava.dtos.CommentsPageImpl;
 import com.example.issuetrackershayanserverjava.models.Comment;
 import com.example.issuetrackershayanserverjava.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -34,21 +32,18 @@ public class CommentController {
 //    }
 
     @GetMapping("/api/issues/{iid}/comments")
-    public CommentsPage findCommentsForIssue(
+    public ItemsPage findCommentsForIssue(
             @PathVariable("iid") Long id,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortField,
             @RequestParam(defaultValue = "desc") String sortDir){
-//                Page<Comment> commentPage = service.findPaginatedCommentsForIssue(id, pageNum-1, pageSize);
         Page<Comment> commentPage = service.findPaginatedSortedCommentsForIssue(id, pageNum-1,
                 pageSize, sortField, sortDir);
-                List<Comment> comments = commentPage.getContent();
-//                List<Comment> sortedList = comments.stream()
-//                        .sorted((Comment a, Comment b) -> (int) (b.getId() - a.getId())).collect(Collectors.toList());
-                CommentsPage commentsPage = new CommentsPageImpl(comments, pageNum,
-                        commentPage.getTotalPages(), commentPage.getTotalElements(), pageSize);
-                return commentsPage;
+        List<Comment> comments = commentPage.getContent();
+        ItemsPage commentsPage = new CommentsPage(comments, pageNum,
+                commentPage.getTotalPages(), commentPage.getTotalElements(), pageSize);
+        return commentsPage;
     }
 
     @GetMapping("/api/users/{uid}/comments")

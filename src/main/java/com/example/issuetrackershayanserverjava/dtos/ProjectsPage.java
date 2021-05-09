@@ -1,31 +1,29 @@
 package com.example.issuetrackershayanserverjava.dtos;
 
-import com.example.issuetrackershayanserverjava.models.Comment;
-
 import java.util.List;
 
-public class CommentsPage implements ItemsPage<Comment> {
-    private List<Comment> comments;
+public class ProjectsPage implements ItemsPage<ProjectMain> {
+    private List<ProjectMain> projects;
     private Integer currentPage;
     private Integer totalPages;
-    private Long totalComments;
+    private Long totalProjects;
     private Integer pageSize;
 
-    public CommentsPage(List<Comment> comments, Integer currentPage,
-                        Integer totalPages, Long totalComments, Integer pageSize) {
-        this.comments = comments;
+    public ProjectsPage(List<ProjectMain> projects, Integer currentPage,
+                        Integer totalPages, Long totalProjects, Integer pageSize) {
+        this.projects = projects;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
-        this.totalComments = totalComments;
+        this.totalProjects = totalProjects;
         this.pageSize = pageSize;
     }
 
-    public CommentsPage() {
+    public ProjectsPage() {
     }
 
     @Override
-    public List<Comment> getItems() {
-        return comments;
+    public List<ProjectMain> getItems() {
+        return projects;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class CommentsPage implements ItemsPage<Comment> {
 
     @Override
     public Long getTotalItems() {
-        return totalComments;
+        return totalProjects;
     }
 
     @Override
@@ -48,3 +46,4 @@ public class CommentsPage implements ItemsPage<Comment> {
         return pageSize;
     }
 }
+

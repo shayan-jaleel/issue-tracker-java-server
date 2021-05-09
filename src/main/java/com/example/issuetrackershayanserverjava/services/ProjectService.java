@@ -2,12 +2,16 @@ package com.example.issuetrackershayanserverjava.services;
 
 import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
-import com.example.issuetrackershayanserverjava.models.ProjectMain;
+import com.example.issuetrackershayanserverjava.dtos.ProjectMain;
 import com.example.issuetrackershayanserverjava.models.User;
 import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
 import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
 import com.example.issuetrackershayanserverjava.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ public class ProjectService {
     public Project createProject(Project project) {
         return projectRepository.save(project);
     }
+
     public List<ProjectMain> findAllProjects() {
         List<Project> projectList = (List<Project>)projectRepository.findAll();
         List<ProjectMain> projectMainList = new ArrayList<>();
@@ -36,6 +41,20 @@ public class ProjectService {
         return projectMainList;
 //        return (List<Project>)projectRepository.findAll();
     }
+
+    public Page<Project> findAllPaginatedSortedProjects(int pageNum, int pageSize,
+                                                        String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+        return projectRepository.findAll(pageable);
+//        List<ProjectMain> projectMainList = new ArrayList<>();
+//        for(Project project: projectList){
+//            projectMainList.add(new ProjectMain(project.getId(), project.getTitle(), project.getDescription()));
+//        }
+//        return projectMainList;
+    }
+
     public Project findProjectById(Long id) {
         //TODO: See about isPresent()
         return projectRepository.findById(id).get();

@@ -1,12 +1,15 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
-import com.example.issuetrackershayanserverjava.models.Issue;
+import com.example.issuetrackershayanserverjava.dtos.ItemsPage;
+import com.example.issuetrackershayanserverjava.dtos.ProjectsPage;
 import com.example.issuetrackershayanserverjava.models.Project;
-import com.example.issuetrackershayanserverjava.models.ProjectMain;
+import com.example.issuetrackershayanserverjava.dtos.ProjectMain;
 import com.example.issuetrackershayanserverjava.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,9 +25,29 @@ public class ProjectController {
         return service.createProject(project);
     }
 
+//    @GetMapping("/api/projects")
+//    public List<ProjectMain> findAllProjects() {
+//        return service.findAllProjects();
+//    }
+
+
     @GetMapping("/api/projects")
-    public List<ProjectMain> findAllProjects() {
-        return service.findAllProjects();
+    public ItemsPage findAllProjects(
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "desc") String sortDir) {
+        Page<Project> projectPage = service.findAllPaginatedSortedProjects(pageNum-1,
+                pageSize, sortField, sortDir);
+        List<Project> projectList = projectPage.getContent();
+        //Convert project to projectMain
+        List<ProjectMain> projectMainList = new ArrayList<>();
+        for(Project project: projectList){
+            projectMainList.add(new ProjectMain(project.getId(), project.getTitle(), project.getDescription()));
+        }
+        ItemsPage projectsPage = new ProjectsPage(projectMainList, pageNum,
+                projectPage.getTotalPages(), projectPage.getTotalElements(), pageSize);
+        return projectsPage;
     }
 
     @GetMapping("/api/projects/{pid}")
