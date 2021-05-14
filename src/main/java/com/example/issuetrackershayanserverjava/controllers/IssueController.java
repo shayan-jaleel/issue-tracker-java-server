@@ -1,9 +1,12 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
+import com.example.issuetrackershayanserverjava.dtos.UserIssuesPage;
+import com.example.issuetrackershayanserverjava.dtos.ItemsPage;
 import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.services.IssueService;
 import com.example.issuetrackershayanserverjava.repositories.UserIssues;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,18 +41,39 @@ public class IssueController {
 //        return returnedList;
 //    }
 
+//    @GetMapping("/api/users/{uId}/issues")
+//    public List<UserIssues> findIssuesForUser(
+//            @PathVariable("uId") Long id,
+//            @RequestParam("description") Optional<String> descriptionString){
+//        List<UserIssues> returnedList = new ArrayList<>();
+//        if(descriptionString.isPresent()) {
+//            returnedList = service.findMatchingIssuesForUser(id, descriptionString.get());
+//        }
+//        else{
+//            returnedList = service.findIssuesForUser(id);
+//        }
+//        return returnedList;
+//    }
+
     @GetMapping("/api/users/{uId}/issues")
-    public List<UserIssues> findIssuesForUser(
+    public ItemsPage findIssuesForUser(
             @PathVariable("uId") Long id,
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam("description") Optional<String> descriptionString){
         List<UserIssues> returnedList = new ArrayList<>();
+        Page issuesPage;
         if(descriptionString.isPresent()) {
-            returnedList = service.findMatchingIssuesForUser(id, descriptionString.get());
+            issuesPage = service.findMatchingIssuesForUser(id, descriptionString.get(), pageNum-1, pageSize);
+            returnedList = issuesPage.getContent();
         }
         else{
-            returnedList = service.findIssuesForUser(id);
+            issuesPage = service.findIssuesForUser(id, pageNum-1, pageSize);
+            returnedList = issuesPage.getContent();
         }
-        return returnedList;
+        ItemsPage returnedUserIssuesPage = new UserIssuesPage(returnedList, pageNum,
+                issuesPage.getTotalPages(), issuesPage.getTotalElements(), pageSize);
+        return returnedUserIssuesPage;
     }
 
 

@@ -1,6 +1,8 @@
 package com.example.issuetrackershayanserverjava.repositories;
 
 import com.example.issuetrackershayanserverjava.models.Issue;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -27,6 +29,18 @@ String GET_ISSUES_FOR_USER_QUERY = "SELECT\n" +
             "    where\n" +
             "    users.id = :uid ORDER BY issues.id DESC";
 
+    String GET_ISSUES_FOR_USER_COUNT_QUERY = "SELECT\n" +
+            "    count(*)" +
+            "    FROM users\n" +
+            "    left join project_users\n" +
+            "    on users.id = project_users.user_id\n" +
+            "    left join projects\n" +
+            "    on project_users.project_id = projects.id\n" +
+            "    left join issues\n" +
+            "    on projects.id = issues.project_id\n" +
+            "    where\n" +
+            "    users.id = :uid ORDER BY issues.id DESC";
+
 
     String GET_MATCHING_ISSUES_FOR_USER_QUERY = "SELECT\n" +
             "    users.id as 'userId',\n" +
@@ -37,6 +51,19 @@ String GET_ISSUES_FOR_USER_QUERY = "SELECT\n" +
             "    issues.description as 'description',\n" +
             "    issues.priority as 'priority',\n" +
             "    issues.status as 'status'\n" +
+            "    FROM users\n" +
+            "    left join project_users\n" +
+            "    on users.id = project_users.user_id\n" +
+            "    left join projects\n" +
+            "    on project_users.project_id = projects.id\n" +
+            "    left join issues\n" +
+            "    on projects.id = issues.project_id\n" +
+            "    where\n" +
+            "    users.id = :uid AND issues.description LIKE :description_string ORDER BY issues.id DESC";
+
+
+    String GET_MATCHING_ISSUES_FOR_USER_COUNT_QUERY = "SELECT\n" +
+            "    count(*)" +
             "    FROM users\n" +
             "    left join project_users\n" +
             "    on users.id = project_users.user_id\n" +
@@ -67,8 +94,19 @@ String GET_ISSUES_FOR_USER_QUERY = "SELECT\n" +
     @Query(value=GET_ISSUES_FOR_USER_QUERY, nativeQuery = true)
     public List<UserIssues> findIssuesForUser(@Param("uid") Long userId);
 
+    @Query(value=GET_ISSUES_FOR_USER_QUERY,
+            countQuery = GET_ISSUES_FOR_USER_COUNT_QUERY,
+            nativeQuery = true)
+    public Page<UserIssues> findIssuesForUser(@Param("uid") Long userId, Pageable pageable);
+
     @Query(value=GET_MATCHING_ISSUES_FOR_USER_QUERY, nativeQuery = true)
     public List<UserIssues> findMatchingIssuesForUser(@Param("uid") Long userId,
                                                       @Param("description_string") String descriptionString);
+    @Query(value=GET_MATCHING_ISSUES_FOR_USER_QUERY,
+            countQuery = GET_MATCHING_ISSUES_FOR_USER_COUNT_QUERY,
+            nativeQuery = true)
+    public Page<UserIssues> findMatchingIssuesForUser(@Param("uid") Long userId,
+                                                      @Param("description_string") String descriptionString,
+                                                      Pageable pageable);
 
 }

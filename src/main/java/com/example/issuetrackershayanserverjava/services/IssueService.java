@@ -6,6 +6,9 @@ import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
 import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
 import com.example.issuetrackershayanserverjava.repositories.UserIssues;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -51,14 +54,23 @@ public class IssueService {
         return issueRepository.save(originalIssue);
 //        return 1;
     }
-    public List<UserIssues> findIssuesForUser(Long userId){
-        List<UserIssues> returnedList = issueRepository.findIssuesForUser(userId);
-        return returnedList;
+    public Page<UserIssues> findIssuesForUser(Long userId,
+                                              int pageNum, int pageSize){
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        Page<UserIssues> returnedPage = issueRepository.findIssuesForUser(userId, pageable);
+        return returnedPage;
     }
     public List<UserIssues> findMatchingIssuesForUser(Long userId, String descriptionString){
         String lookupString = "%"+descriptionString+"%";
         List<UserIssues> returnedList = issueRepository.findMatchingIssuesForUser(userId, lookupString);
         return returnedList;
+    }
+    public Page<UserIssues> findMatchingIssuesForUser(Long userId, String descriptionString,
+                                                      int pageNum, int pageSize){
+        String lookupString = "%"+descriptionString+"%";
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        Page<UserIssues> returnedPage = issueRepository.findMatchingIssuesForUser(userId, lookupString, pageable);
+        return returnedPage;
     }
     public Project findProjectForIssue(Long id){
         Issue issue = issueRepository.findById(id).get();

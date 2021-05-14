@@ -29,7 +29,8 @@ public class ProjectService {
 
     // implement crud operations
     public Project createProject(Project project) {
-        return projectRepository.save(project);
+        Project createdProject = projectRepository.save(project);
+        return createdProject;
     }
 
     public List<ProjectMain> findAllProjects() {
