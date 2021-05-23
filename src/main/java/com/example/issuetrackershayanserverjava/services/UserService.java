@@ -3,10 +3,11 @@ package com.example.issuetrackershayanserverjava.services;
 import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.models.Role;
 import com.example.issuetrackershayanserverjava.models.User;
-import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
-import com.example.issuetrackershayanserverjava.repositories.RoleRepository;
-import com.example.issuetrackershayanserverjava.repositories.UserRepository;
+import com.example.issuetrackershayanserverjava.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +37,14 @@ public class UserService {
         List<User> matchedUsers = userRepository.findUserForUsernamePassword(username, password);
         if(matchedUsers == null || matchedUsers.size() == 0) return null;
         return matchedUsers.get(0);
+    }
+    public Page<ProjectUsers> findUsersForProject(Long pid,
+                                                   int pageNum, int pageSize){
+//        Project project = projectRepository.findById(pid).get();
+//        return project.getIssues();
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        Page returnedPage = userRepository.findUsersForProject(pid, pageable);
+        return returnedPage;
     }
 
     public List<User> findAllUsers() {
