@@ -3,14 +3,32 @@ package com.example.issuetrackershayanserverjava.repositories;
 import com.example.issuetrackershayanserverjava.models.Issue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface IssueRepository extends CrudRepository<Issue, Long> {
-String GET_ISSUES_FOR_USER_QUERY = "SELECT\n" +
+public interface IssueRepository extends JpaRepository<Issue, Long> {
+    String GET_ISSUES_FOR_PROJECT_QUERY = "select\n" +
+            " projects.id as 'projectId', \n" +
+            " issues.id as 'issueId', \n" +
+            " issues.description as 'description', \n" +
+            " issues.priority as 'priority', \n" +
+            " issues.status as 'status', \n" +
+            " issues.type as 'type' \n" +
+            " from projects join issues\n" +
+            "  on projects.id = issues.project_id \n" +
+            " where projects.id= :pid ORDER BY issues.id DESC";
+
+    String GET_ISSUES_FOR_PROJECT_COUNT_QUERY = "select\n" +
+            " count(*)\n" +
+            " from projects join issues\n" +
+            "  on projects.id = issues.project_id \n" +
+            "where projects.id= :pid";
+
+    String GET_ISSUES_FOR_USER_QUERY = "SELECT\n" +
             "    users.id as 'userId',\n" +
             "    users.username as 'username',\n" +
             "    projects.id as 'projectId'," +
@@ -108,5 +126,9 @@ String GET_ISSUES_FOR_USER_QUERY = "SELECT\n" +
     public Page<UserIssues> findMatchingIssuesForUser(@Param("uid") Long userId,
                                                       @Param("description_string") String descriptionString,
                                                       Pageable pageable);
+    @Query(value=GET_ISSUES_FOR_PROJECT_QUERY,
+            countQuery = GET_ISSUES_FOR_PROJECT_COUNT_QUERY,
+            nativeQuery = true)
+    public Page<ProjectIssues> findIssuesForProject(@Param("pid") Long projectId, Pageable pageable);
 
 }

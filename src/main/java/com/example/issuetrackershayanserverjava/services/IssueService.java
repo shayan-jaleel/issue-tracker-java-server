@@ -3,6 +3,7 @@ package com.example.issuetrackershayanserverjava.services;
 import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.repositories.IssueRepository;
+import com.example.issuetrackershayanserverjava.repositories.ProjectIssues;
 import com.example.issuetrackershayanserverjava.repositories.ProjectRepository;
 import com.example.issuetrackershayanserverjava.repositories.UserIssues;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,13 @@ public class IssueService {
         return issueRepository.save(issue);
     }
     //Should this be implemented here?
-    public List<Issue> findIssuesForProject(Long pid){
-        Project project = projectRepository.findById(pid).get();
-        return project.getIssues();
+    public Page<ProjectIssues> findIssuesForProject(Long pid,
+                                                    int pageNum, int pageSize){
+//        Project project = projectRepository.findById(pid).get();
+//        return project.getIssues();
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        Page returnedPage = issueRepository.findIssuesForProject(pid, pageable);
+        return returnedPage;
     }
     public List<Issue> findAllIssues() {
         return (List<Issue>)issueRepository.findAll();

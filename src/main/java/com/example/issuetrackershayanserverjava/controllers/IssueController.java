@@ -1,8 +1,10 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
+import com.example.issuetrackershayanserverjava.dtos.ProjectIssuesPage;
 import com.example.issuetrackershayanserverjava.dtos.UserIssuesPage;
 import com.example.issuetrackershayanserverjava.dtos.ItemsPage;
 import com.example.issuetrackershayanserverjava.models.Issue;
+import com.example.issuetrackershayanserverjava.repositories.ProjectIssues;
 import com.example.issuetrackershayanserverjava.services.IssueService;
 import com.example.issuetrackershayanserverjava.repositories.UserIssues;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,22 @@ public class IssueController {
     }
 
     @GetMapping("/api/projects/{pId}/issues")
-    public List<Issue> findIssuesForProject(
-            @PathVariable("pId") Long id){
-        return service.findIssuesForProject(id);
+    public ItemsPage findIssuesForProject(
+            @PathVariable("pId") Long id,
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "5") Integer pageSize){
+        Page<ProjectIssues> issuesPage = service.findIssuesForProject(id, pageNum-1, pageSize);
+        ItemsPage returnedProjectIssuesPage = new ProjectIssuesPage(issuesPage.getContent(), pageNum,
+                issuesPage.getTotalPages(), issuesPage.getTotalElements(), pageSize);
+        return returnedProjectIssuesPage;
+
     }
+
+//    @GetMapping("/api/projects/{pId}/issues")
+//    public List<Issue> findIssuesForProject(
+//            @PathVariable("pId") Long id){
+//        return service.findIssuesForProject(id);
+//    }
 
 
 //    @GetMapping("/api/users/{uId}/issues")
