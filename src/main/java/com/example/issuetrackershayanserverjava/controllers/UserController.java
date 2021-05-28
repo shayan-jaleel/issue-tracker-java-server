@@ -19,7 +19,8 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000",
-        "https://issue-tracker-client-shayan.herokuapp.com"}, allowCredentials = "true")
+        "https://issue-tracker-client-shayan.herokuapp.com",
+        "http://issue-tracker-client-shayan.herokuapp.com"}, allowCredentials = "true")
 public class UserController {
     @Autowired
     UserService service;
