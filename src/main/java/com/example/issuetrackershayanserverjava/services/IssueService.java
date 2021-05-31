@@ -60,9 +60,10 @@ public class IssueService {
 //        return 1;
     }
     public Page<UserIssues> findIssuesForUser(Long userId,
-                                              int pageNum, int pageSize){
+                                              int pageNum, int pageSize, Boolean isOpen){
         Pageable pageable = PageRequest.of(pageNum, pageSize);
-        Page<UserIssues> returnedPage = issueRepository.findIssuesForUser(userId, pageable);
+        Page<UserIssues> returnedPage = isOpen? issueRepository.findOpenIssuesForUser(userId, pageable)
+                : issueRepository.findIssuesForUser(userId, pageable);
         return returnedPage;
     }
     public List<UserIssues> findMatchingIssuesForUser(Long userId, String descriptionString){
@@ -71,10 +72,12 @@ public class IssueService {
         return returnedList;
     }
     public Page<UserIssues> findMatchingIssuesForUser(Long userId, String descriptionString,
-                                                      int pageNum, int pageSize){
+                                                      int pageNum, int pageSize, Boolean isOpen){
         String lookupString = "%"+descriptionString+"%";
         Pageable pageable = PageRequest.of(pageNum, pageSize);
-        Page<UserIssues> returnedPage = issueRepository.findMatchingIssuesForUser(userId, lookupString, pageable);
+        Page<UserIssues> returnedPage = isOpen ? issueRepository.findOpenMatchingIssuesForUser(userId,
+                lookupString, pageable):
+                issueRepository.findMatchingIssuesForUser(userId, lookupString, pageable);
         return returnedPage;
     }
     public Project findProjectForIssue(Long id){

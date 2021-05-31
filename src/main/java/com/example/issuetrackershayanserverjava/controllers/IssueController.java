@@ -74,15 +74,16 @@ public class IssueController {
             @PathVariable("uId") Long id,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
-            @RequestParam("description") Optional<String> descriptionString){
+            @RequestParam("description") Optional<String> descriptionString,
+            @RequestParam("open") Boolean isOpen){
         List<UserIssues> returnedList = new ArrayList<>();
         Page issuesPage;
-        if(descriptionString.isPresent()) {
-            issuesPage = service.findMatchingIssuesForUser(id, descriptionString.get(), pageNum-1, pageSize);
+        if (descriptionString.isPresent()) {
+            issuesPage = service.findMatchingIssuesForUser(id, descriptionString.get(), pageNum-1, pageSize, isOpen);
             returnedList = issuesPage.getContent();
         }
-        else{
-            issuesPage = service.findIssuesForUser(id, pageNum-1, pageSize);
+        else {
+            issuesPage = service.findIssuesForUser(id, pageNum-1, pageSize, isOpen);
             returnedList = issuesPage.getContent();
         }
         ItemsPage returnedUserIssuesPage = new UserIssuesPage(returnedList, pageNum,
