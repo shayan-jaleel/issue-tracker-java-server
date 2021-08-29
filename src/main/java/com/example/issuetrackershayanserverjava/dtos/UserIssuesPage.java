@@ -1,12 +1,10 @@
 package com.example.issuetrackershayanserverjava.dtos;
 
-import com.example.issuetrackershayanserverjava.models.Comment;
-import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.repositories.UserIssues;
 
 import java.util.List;
 
-public class UserIssuesPage implements ItemsPage<UserIssues>{
+public class UserIssuesPage implements ItemsPage<UserIssues> {
     private List<UserIssues> issues;
     private Integer currentPage;
     private Integer totalPages;

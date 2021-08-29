@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Represents a role e.g. ADMIN, DEVELOPER, MANAGER.
+ */
 @Entity
 @Table(name = "roles")
 public class Role {

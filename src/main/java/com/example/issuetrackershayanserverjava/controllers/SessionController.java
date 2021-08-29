@@ -38,18 +38,15 @@ public class SessionController {
 
     @PostMapping("/api/login")
     public User login(@RequestBody User credentials,
-                          HttpSession session) {
+                      HttpSession session) {
         String username = credentials.getUsername();
         String password = credentials.getPassword();
         User matchedUser = userService.findUserForUsernamePassword(username, password);
-        if(matchedUser != null){
+        if (matchedUser != null) {
             session.setAttribute("currentUser", matchedUser);
             return matchedUser;
-        }
-        else return null;
+        } else return null;
     }
-
-
 
     @PostMapping("/api/logout")
     public void logout

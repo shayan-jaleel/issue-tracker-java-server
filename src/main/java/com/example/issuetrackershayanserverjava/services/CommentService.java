@@ -24,7 +24,6 @@ public class CommentService {
     @Autowired
     UserRepository userRepository;
 
-    // implement CRUD operations
     public Comment createComment(Long iid, Long uid, Comment comment) {
         Issue issue = issueRepository.findById(iid).get();
         comment.setIssue(issue);
@@ -33,19 +32,19 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> findCommentsForIssue(Long iid){
+    public List<Comment> findCommentsForIssue(Long iid) {
         Issue issue = issueRepository.findById(iid).get();
         return issue.getComments();
     }
-    public Page<Comment> findPaginatedCommentsForIssue(Long iid, int pageNum, int pageSize){
+
+    public Page<Comment> findPaginatedCommentsForIssue(Long iid, int pageNum, int pageSize) {
         Issue issue = issueRepository.findById(iid).get();
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         return commentRepository.findByIssue(issue, pageable);
-//        return commentRepository.findAll(pageable);
     }
 
     public Page<Comment> findPaginatedSortedCommentsForIssue(Long iid, int pageNum, int pageSize,
-                                                             String sortField, String sortDirection){
+                                                             String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Issue issue = issueRepository.findById(iid).get();
@@ -53,33 +52,37 @@ public class CommentService {
         return commentRepository.findByIssue(issue, pageable);
     }
 
-    public List<Comment> findCommentsForUser(Long uid){
+    public List<Comment> findCommentsForUser(Long uid) {
         User user = userRepository.findById(uid).get();
         return user.getComments();
     }
 
     public List<Comment> findAllComments() {
-        return (List<Comment>)commentRepository.findAll();
+        return (List<Comment>) commentRepository.findAll();
     }
 
     public Comment findCommentById(Long id) {
         //TODO: See about isPresent()
         return commentRepository.findById(id).get();
     }
+
     public Comment updateComment(Long id, Comment newComment) {
         Comment originalComment = findCommentById(id);
         originalComment.setText(newComment.getText());
         originalComment.setEdited(true);
         return commentRepository.save(originalComment);
     }
-    public Issue findIssueForComment(Long id){
+
+    public Issue findIssueForComment(Long id) {
         Comment comment = commentRepository.findById(id).get();
         return comment.getIssue();
     }
-    public User findUserForComment(Long id){
+
+    public User findUserForComment(Long id) {
         Comment comment = commentRepository.findById(id).get();
         return comment.getUser();
     }
+
     public Integer deleteComment(Long id) {
         commentRepository.deleteById(id);
         return 1;

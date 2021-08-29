@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -31,10 +30,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "on users.id = project_users.user_id\n" +
             "where projects.id = :pid";
 
-    @Query(value="SELECT * FROM users WHERE username=:uname AND password=:pass", nativeQuery = true)
+    @Query(value = "SELECT * FROM users WHERE username=:uname AND password=:pass", nativeQuery = true)
     public List<User> findUserForUsernamePassword(@Param("uname") String username, @Param("pass") String password);
 
-    @Query(value=GET_USERS_FOR_PROJECT_QUERY,
+    @Query(value = GET_USERS_FOR_PROJECT_QUERY,
             countQuery = GET_USERS_FOR_PROJECTS_COUNT_QUERY,
             nativeQuery = true)
     public Page<ProjectUsers> findUsersForProject(@Param("pid") Long projectId, Pageable pageable);

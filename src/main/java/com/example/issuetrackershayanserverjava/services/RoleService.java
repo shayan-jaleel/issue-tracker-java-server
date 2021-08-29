@@ -12,7 +12,6 @@ public class RoleService {
     @Autowired
     RoleRepository roleRepository;
 
-    // implement CRUD operations
     public Role createRole(Role role) {
         return roleRepository.save(role);
     }

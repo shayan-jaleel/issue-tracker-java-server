@@ -1,31 +1,34 @@
 package com.example.issuetrackershayanserverjava.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a project, which consists of a title and a description.
+ * A project has Users assigned to it, who work on Issues for that project.
+ */
 @Entity
-@Table(name="projects")
+@Table(name = "projects")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
 
-    @Column(length=10000)
+    @Column(length = 10000)
     private String description;
 
     @OneToMany(mappedBy = "project")
     private List<Issue> issues;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name="project_users",
-        joinColumns = {@JoinColumn(name = "project_id")},
-        inverseJoinColumns = {@JoinColumn(name = "user_id")})
-//    @JsonIgnore
-    private Set<User> users;// = new ArrayList<>();
+    @JoinTable(name = "project_users",
+            joinColumns = {@JoinColumn(name = "project_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+
+    private Set<User> users;
 
 
     public Project(Long id, String title, String description, Set<User> users) {
@@ -70,11 +73,8 @@ public class Project {
         this.issues = issues;
     }
 
-    public Issue addIssue(Issue issue){
+    public Issue addIssue(Issue issue) {
         this.issues.add(issue);
-//        if(issue.getProject() != this){
-//            issue.setProject(this);
-//        }
         return issue;
     }
 

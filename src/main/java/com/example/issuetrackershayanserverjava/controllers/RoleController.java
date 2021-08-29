@@ -1,9 +1,6 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
-
-import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.models.Role;
-import com.example.issuetrackershayanserverjava.services.ProjectService;
 import com.example.issuetrackershayanserverjava.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
