@@ -22,39 +22,39 @@ public class UserService {
     @Autowired
     ProjectRepository projectRepository;
 
-    // implement CRUD operations
     public User createUserForRole(Long rid, User user) {
         Role role = roleRepository.findById(rid).get();
         user.setRole(role);
         return userRepository.save(user);
     }
 
-    public List<User> findUsersForRole(Long rid){
+    public List<User> findUsersForRole(Long rid) {
         Role role = roleRepository.findById(rid).get();
         return role.getUsers();
     }
-    public User findUserForUsernamePassword(String username, String password){
+
+    public User findUserForUsernamePassword(String username, String password) {
         List<User> matchedUsers = userRepository.findUserForUsernamePassword(username, password);
-        if(matchedUsers == null || matchedUsers.size() == 0) return null;
+        if (matchedUsers == null || matchedUsers.size() == 0) return null;
         return matchedUsers.get(0);
     }
+
     public Page<ProjectUsers> findUsersForProject(Long pid,
-                                                   int pageNum, int pageSize){
-//        Project project = projectRepository.findById(pid).get();
-//        return project.getIssues();
+                                                  int pageNum, int pageSize) {
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page returnedPage = userRepository.findUsersForProject(pid, pageable);
         return returnedPage;
     }
 
     public List<User> findAllUsers() {
-        return (List<User>)userRepository.findAll();
+        return (List<User>) userRepository.findAll();
     }
 
     public User findUserById(Long id) {
         //TODO: See about isPresent()
         return userRepository.findById(id).get();
     }
+
     public User updateUser(Long id, User newUser) {
         User originalUser = findUserById(id);
         originalUser.setEmail(newUser.getEmail());
@@ -65,7 +65,6 @@ public class UserService {
         //TODO: role change here?
 //        originalUser.setRole();
         return userRepository.save(originalUser);
-//        return 1;
     }
 
     public User updateUser(Long uid, Long rid, User newUser) {
@@ -78,15 +77,15 @@ public class UserService {
         Role role = roleRepository.findById(rid).get();
         originalUser.setRole(role);
         return userRepository.save(originalUser);
-//        return 1;
     }
 
 
-    public Set<User> findUsersForProject(Long pid){
+    public Set<User> findUsersForProject(Long pid) {
         Project project = projectRepository.findById(pid).get();
         return project.getUsers();
     }
-    public Integer addUserToProject(Long pid, Long uid){
+
+    public Integer addUserToProject(Long pid, Long uid) {
         User user = userRepository.findById(uid).get();
         Project project = projectRepository.findById(pid).get();
 
@@ -94,14 +93,10 @@ public class UserService {
         Project project1 = projectRepository.save(project);
         user.getProjects().add(project1);
         User user1 = userRepository.save(user);
-
-//        List<User> curUserListForProject = new ArrayList<>(project.getUsers());
-//        curUserListForProject.add(user1);
-//        project.setUsers(curUserListForProject);
-//        Project project1 = projectRepository.save(project);
         return 1;
     }
-    public Integer removeUserFromProject(Long pid, Long uid){
+
+    public Integer removeUserFromProject(Long pid, Long uid) {
         User user = userRepository.findById(uid).get();
         Project project = projectRepository.findById(pid).get();
 
@@ -109,18 +104,14 @@ public class UserService {
         Project project1 = projectRepository.save(project);
         user.getProjects().remove(project1);
         User user1 = userRepository.save(user);
-
-//        List<User> curUserListForProject = new ArrayList<>(project.getUsers());
-//        curUserListForProject.add(user1);
-//        project.setUsers(curUserListForProject);
-//        Project project1 = projectRepository.save(project);
         return 1;
     }
 
-    public Role findRoleForUser(Long id){
+    public Role findRoleForUser(Long id) {
         User user = userRepository.findById(id).get();
         return user.getRole();
     }
+
     public Integer deleteUser(Long id) {
         userRepository.deleteById(id);
         return 1;

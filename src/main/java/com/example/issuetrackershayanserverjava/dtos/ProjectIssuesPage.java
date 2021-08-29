@@ -1,6 +1,5 @@
 package com.example.issuetrackershayanserverjava.dtos;
 
-import com.example.issuetrackershayanserverjava.models.Issue;
 import com.example.issuetrackershayanserverjava.repositories.ProjectIssues;
 
 import java.util.List;

@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -172,36 +171,38 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 //    where
 //    users.id = 3;
 
-    @Query(value=GET_ISSUES_FOR_USER_QUERY, nativeQuery = true)
+    @Query(value = GET_ISSUES_FOR_USER_QUERY, nativeQuery = true)
     public List<UserIssues> findIssuesForUser(@Param("uid") Long userId);
 
-    @Query(value=GET_ISSUES_FOR_USER_QUERY,
+    @Query(value = GET_ISSUES_FOR_USER_QUERY,
             countQuery = GET_ISSUES_FOR_USER_COUNT_QUERY,
             nativeQuery = true)
     public Page<UserIssues> findIssuesForUser(@Param("uid") Long userId, Pageable pageable);
 
-    @Query(value=GET_OPEN_ISSUES_FOR_USER_QUERY,
+    @Query(value = GET_OPEN_ISSUES_FOR_USER_QUERY,
             countQuery = GET_OPEN_ISSUES_FOR_USER_COUNT_QUERY,
             nativeQuery = true)
     public Page<UserIssues> findOpenIssuesForUser(@Param("uid") Long userId, Pageable pageable);
 
-    @Query(value=GET_MATCHING_ISSUES_FOR_USER_QUERY, nativeQuery = true)
+    @Query(value = GET_MATCHING_ISSUES_FOR_USER_QUERY, nativeQuery = true)
     public List<UserIssues> findMatchingIssuesForUser(@Param("uid") Long userId,
                                                       @Param("description_string") String descriptionString);
-    @Query(value=GET_MATCHING_ISSUES_FOR_USER_QUERY,
+
+    @Query(value = GET_MATCHING_ISSUES_FOR_USER_QUERY,
             countQuery = GET_MATCHING_ISSUES_FOR_USER_COUNT_QUERY,
             nativeQuery = true)
     public Page<UserIssues> findMatchingIssuesForUser(@Param("uid") Long userId,
                                                       @Param("description_string") String descriptionString,
                                                       Pageable pageable);
 
-    @Query(value=GET_OPEN_MATCHING_ISSUES_FOR_USER_QUERY,
+    @Query(value = GET_OPEN_MATCHING_ISSUES_FOR_USER_QUERY,
             countQuery = GET_OPEN_MATCHING_ISSUES_FOR_USER_COUNT_QUERY,
             nativeQuery = true)
     public Page<UserIssues> findOpenMatchingIssuesForUser(@Param("uid") Long userId,
-                                                      @Param("description_string") String descriptionString,
-                                                      Pageable pageable);
-    @Query(value=GET_ISSUES_FOR_PROJECT_QUERY,
+                                                          @Param("description_string") String descriptionString,
+                                                          Pageable pageable);
+
+    @Query(value = GET_ISSUES_FOR_PROJECT_QUERY,
             countQuery = GET_ISSUES_FOR_PROJECT_COUNT_QUERY,
             nativeQuery = true)
     public Page<ProjectIssues> findIssuesForProject(@Param("pid") Long projectId, Pageable pageable);

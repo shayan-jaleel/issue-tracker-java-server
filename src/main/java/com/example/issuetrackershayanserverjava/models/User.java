@@ -3,16 +3,19 @@ package com.example.issuetrackershayanserverjava.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a user consisting of a username, password and other personal information.
+ */
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     private String firstname;
     private String lastname;
@@ -20,7 +23,6 @@ public class User {
     private String password;
 
     @ManyToOne
-//    @JsonIgnore
     private Role role;
 
     @OneToMany(mappedBy = "user")
@@ -29,7 +31,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "users")
     @JsonIgnore
-    private Set<Project> projects;// = new ArrayList<>();
+    private Set<Project> projects;
 
     public User() {
     }

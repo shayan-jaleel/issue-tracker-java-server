@@ -2,6 +2,10 @@ package com.example.issuetrackershayanserverjava.models;
 
 import javax.persistence.*;
 
+/**
+ * Represents a comment. Includes the time when the comment was made as well as whether or not it was edited.
+ * A Comment is made by a User on an Issue.
+ */
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -13,11 +17,9 @@ public class Comment {
     private Boolean edited;
 
     @ManyToOne
-//    @JsonIgnore
     private Issue issue;
 
     @ManyToOne
-//    @JsonIgnore
     private User user;
 
     public Comment(Long id, String text, Issue issue, User user,
