@@ -1,13 +1,16 @@
 package com.example.issuetrackershayanserverjava.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Represents an Issue/Ticket for a Project. In addition to a description of the issue, it includes the priority level
+ * (LOW, MEDIUM, HIGH), as well as the issue status (OPEN, CLOSED). An issue can have many comments.
+ */
 @Entity
-@Table(name="issues")
+@Table(name = "issues")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,9 +90,6 @@ public class Issue {
 
     public void setProject(Project project) {
         this.project = project;
-//        if(!project.getIssues().contains(this)){
-//            project.getIssues().add(this);
-//        }
     }
 
     public List<Comment> getComments() {

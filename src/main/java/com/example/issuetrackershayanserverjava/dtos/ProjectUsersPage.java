@@ -1,11 +1,10 @@
 package com.example.issuetrackershayanserverjava.dtos;
 
-import com.example.issuetrackershayanserverjava.repositories.ProjectIssues;
 import com.example.issuetrackershayanserverjava.repositories.ProjectUsers;
 
 import java.util.List;
 
-public class ProjectUsersPage implements ItemsPage<ProjectUsers>{
+public class ProjectUsersPage implements ItemsPage<ProjectUsers> {
     private List<ProjectUsers> users;
     private Integer currentPage;
     private Integer totalPages;

@@ -1,14 +1,9 @@
 package com.example.issuetrackershayanserverjava.controllers;
 
 import com.example.issuetrackershayanserverjava.dtos.ItemsPage;
-import com.example.issuetrackershayanserverjava.dtos.ProjectIssuesPage;
 import com.example.issuetrackershayanserverjava.dtos.ProjectUsersPage;
-import com.example.issuetrackershayanserverjava.models.Comment;
-import com.example.issuetrackershayanserverjava.models.Project;
 import com.example.issuetrackershayanserverjava.models.User;
-import com.example.issuetrackershayanserverjava.repositories.ProjectIssues;
 import com.example.issuetrackershayanserverjava.repositories.ProjectUsers;
-import com.example.issuetrackershayanserverjava.services.CommentService;
 import com.example.issuetrackershayanserverjava.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,7 +30,7 @@ public class UserController {
 
     @GetMapping("/api/roles/{rid}/users")
     public List<User> findUsersForRole(
-            @PathVariable("rid") Long id){
+            @PathVariable("rid") Long id) {
         return service.findUsersForRole(id);
     }
 
@@ -60,8 +55,8 @@ public class UserController {
     public ItemsPage findPaginatedUsersForProject(
             @PathVariable("pId") Long id,
             @RequestParam(defaultValue = "1") Integer pageNum,
-            @RequestParam(defaultValue = "5") Integer pageSize){
-        Page<ProjectUsers> usersPage = service.findUsersForProject(id, pageNum-1, pageSize);
+            @RequestParam(defaultValue = "5") Integer pageSize) {
+        Page<ProjectUsers> usersPage = service.findUsersForProject(id, pageNum - 1, pageSize);
         ItemsPage returnedProjectUsersPage = new ProjectUsersPage(usersPage.getContent(), pageNum,
                 usersPage.getTotalPages(), usersPage.getTotalElements(), pageSize);
         return returnedProjectUsersPage;
@@ -73,6 +68,7 @@ public class UserController {
             @PathVariable("uid") Long uid) {
         return service.addUserToProject(pid, uid);
     }
+
     @DeleteMapping("/api/projects/{pid}/users/{uid}")
     public Integer removeUserFromProject(
             @PathVariable("pid") Long pid,

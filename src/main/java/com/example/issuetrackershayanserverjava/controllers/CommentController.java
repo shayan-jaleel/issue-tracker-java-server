@@ -25,20 +25,14 @@ public class CommentController {
         return service.createComment(pid, uid, comment);
     }
 
-//    @GetMapping("/api/issues/{iid}/comments")
-//    public List<Comment> findCommentsForIssue(
-//            @PathVariable("iid") Long id){
-//        return service.findCommentsForIssue(id);
-//    }
-
     @GetMapping("/api/issues/{iid}/comments")
     public ItemsPage findCommentsForIssue(
             @PathVariable("iid") Long id,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortField,
-            @RequestParam(defaultValue = "desc") String sortDir){
-        Page<Comment> commentPage = service.findPaginatedSortedCommentsForIssue(id, pageNum-1,
+            @RequestParam(defaultValue = "desc") String sortDir) {
+        Page<Comment> commentPage = service.findPaginatedSortedCommentsForIssue(id, pageNum - 1,
                 pageSize, sortField, sortDir);
         List<Comment> comments = commentPage.getContent();
         ItemsPage commentsPage = new CommentsPage(comments, pageNum,
@@ -48,7 +42,7 @@ public class CommentController {
 
     @GetMapping("/api/users/{uid}/comments")
     public List<Comment> findCommentsForUser(
-            @PathVariable("uid") Long id){
+            @PathVariable("uid") Long id) {
         return service.findCommentsForUser(id);
     }
 

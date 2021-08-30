@@ -25,24 +25,18 @@ public class ProjectController {
         return service.createProject(project);
     }
 
-//    @GetMapping("/api/projects")
-//    public List<ProjectMain> findAllProjects() {
-//        return service.findAllProjects();
-//    }
-
-
     @GetMapping("/api/projects")
     public ItemsPage findAllProjects(
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortField,
             @RequestParam(defaultValue = "desc") String sortDir) {
-        Page<Project> projectPage = service.findAllPaginatedSortedProjects(pageNum-1,
+        Page<Project> projectPage = service.findAllPaginatedSortedProjects(pageNum - 1,
                 pageSize, sortField, sortDir);
         List<Project> projectList = projectPage.getContent();
         //Convert project to projectMain
         List<ProjectMain> projectMainList = new ArrayList<>();
-        for(Project project: projectList){
+        for (Project project : projectList) {
             projectMainList.add(new ProjectMain(project.getId(), project.getTitle(), project.getDescription()));
         }
         ItemsPage projectsPage = new ProjectsPage(projectMainList, pageNum,
@@ -55,16 +49,19 @@ public class ProjectController {
             @PathVariable("pid") Long id) {
         return service.findProjectById(id);
     }
+
     @GetMapping("/api/users/{uid}/projects")
     public Set<Project> findProjectsForUser(
             @PathVariable("uid") Long id) {
         return service.findProjectsForUser(id);
     }
+
     @GetMapping("/api/issues/{iid}/projects")
     public Project findProjectForIssue(
             @PathVariable("iid") Long id) {
         return service.findProjectForIssue(id);
     }
+
     @GetMapping("/api/users/{uid}/projects/{pid}")
     public Integer addProjectToUser(
             @PathVariable("uid") Long uid,
